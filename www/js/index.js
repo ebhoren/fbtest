@@ -44,24 +44,31 @@ var app = {
 
         var listeningElement = this.rootEl.querySelector('.listening');
         var receivedElement = this.rootEl.querySelector('.received');
-        var facebookElement = this.rootEl.querySelector('.facebook');
+        var shareElement = this.rootEl.querySelector('.share');
+        var appsElement = this.rootEl.querySelector('.apps');
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
-        facebookElement.setAttribute('style', 'display:block;');
+        shareElement.setAttribute('style', 'display:block;');
+        appsElement.setAttribute('style', 'display:block;');
 
-        facebookElement.addEventListener('click', this.onFacebook, false);
+        shareElement.addEventListener('click', app.onShareDialog, false);
+        appsElement.addEventListener('click', app.onApps, false);
 
         console.log('Received Event: ' + id);
     },
-    // Trigger Facebook modal window
-    onFacebook: function(e) {
+
+
+    onShareDialog: function(e) {
+        e.preventDefault();
+
+        window.plugins.socialsharing.share('Message', 'Subject', null, 'http://www.google.com');
+        return false;
+    },
+    onApps: function(e) {
         e.preventDefault();
 
         window.plugins.socialsharing.canShareVia(null, 'Hello World', null, null, null, app.shareCallback, app.shareCallback);
-        //window.plugins.socialsharing.share('Hello World');
-        //window.plugins.socialsharing.shareVia('com.facebook.katana', 'Hello World 2');
-
         return false;
     },
     shareCallback: function(e) {
